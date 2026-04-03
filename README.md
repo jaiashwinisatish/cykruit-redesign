@@ -2,6 +2,8 @@
 A modern, high-performance redesign of the Cykruit website built using **React + Vite + TypeScript + Tailwind CSS**.
 This project focuses on **clean architecture, premium UI/UX, and scalable frontend practices**.
 
+Build a production-ready frontend web application by redesigning and rebuilding the website Cykruit.com from scratch using Next.js (App Router) and Tailwind CSS.
+
 ---
 
 ## ✨ Overview
