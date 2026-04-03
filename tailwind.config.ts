@@ -121,6 +121,23 @@ export default {
           "0%": { transform: "translateY(-100%)", opacity: "1" },
           "100%": { transform: "translateY(100vh)", opacity: "0" },
         },
+        "background-shine": {
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
+        "border-beam": {
+          "100%": {
+            "offset-distance": "100%",
+          },
+        },
+        shimmer: {
+          "0%": {
+            "background-position": "-200% 0",
+          },
+          "100%": {
+            "background-position": "200% 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -133,6 +150,9 @@ export default {
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
         "typing-cursor": "typing-cursor 1s step-end infinite",
         "count-up": "count-up 0.6s ease-out",
+        "background-shine": "background-shine 2s linear infinite",
+        "border-beam": "border-beam calc(var(--duration)*1s) infinite linear",
+        shimmer: "shimmer 2s linear infinite",
       },
     },
   },

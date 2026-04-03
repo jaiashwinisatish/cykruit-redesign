@@ -10,9 +10,12 @@ export function HeroSection() {
     <section className="relative min-h-[90vh] flex items-center overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "3s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyber-purple/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(0,163,255,0.05),transparent_50%)]" />
+        <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-float opacity-50" />
+        <div className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] animate-float opacity-50" style={{ animationDelay: "3s" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyber-purple/10 rounded-full blur-[150px] opacity-30" />
+        <div className="absolute inset-0 cyber-grid opacity-[0.15]" />
+        <div className="absolute inset-0 noise-bg opacity-20" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -56,15 +59,22 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <Button asChild size="lg" className="text-base px-8 glow-primary group">
-              <Link to="/jobs">
-                Browse Jobs
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="text-base px-8">
-              <Link to="/about">Learn More</Link>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button asChild size="lg" className="text-base px-8 glow-primary group relative overflow-hidden">
+                <Link to="/jobs">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Browse Jobs
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary/20 via-primary/40 to-primary/20 animate-background-shine bg-[length:200%_100%] z-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button asChild variant="outline" size="lg" className="text-base px-8 backdrop-blur-sm bg-background/30 hover:bg-background/50 border-primary/20 hover:border-primary/50 transition-all">
+                <Link to="/about">Learn More</Link>
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Trust logos */}

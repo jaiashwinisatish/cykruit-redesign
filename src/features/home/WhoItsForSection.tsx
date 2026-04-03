@@ -32,33 +32,57 @@ export function WhoItsForSection() {
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+          <motion.h2 
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
             Built for <span className="text-gradient-cyber">Everyone</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            className="text-muted-foreground text-lg max-w-xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
             Whether you're looking for your next role or your next hire, Cykruit is designed for you.
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {cards.map((card, i) => (
             <motion.div
               key={card.title}
-              className={`glass rounded-2xl p-10 text-center transition-all duration-300 ${card.glow} hover:glow-border group`}
+              className={`relative overflow-hidden group bg-card/40 backdrop-blur-md rounded-2xl p-10 text-center border border-white/5 transition-all duration-500 hover:border-primary/30 hover:bg-card/60`}
               initial={{ opacity: 0, y: 30 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.2 }}
-              whileHover={{ y: -4 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.2, duration: 0.8, ease: "circOut" }}
+              whileHover={{ y: -8 }}
             >
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-primary/20 transition-colors">
-                <card.icon className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-foreground">{card.title}</h3>
-              <p className="text-muted-foreground mb-6 leading-relaxed">{card.description}</p>
-              <Button asChild variant="outline">
-                <Link to={card.href}>{card.cta}</Link>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute -inset-[100%] group-hover:animate-border-beam [background:linear-gradient(90deg,transparent_0,rgba(0,163,255,0.2)_50%,transparent_100%)] [offset-path:rect(0_auto_auto_0_round_2rem)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ "--duration": 4 } as any} />
+
+              <motion.div 
+                className="h-20 w-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+                whileHover={{ rotate: [6, -6, 6], transition: { repeat: Infinity, duration: 2 } }}
+              >
+                <card.icon className="h-10 w-10 text-primary" />
+              </motion.div>
+              <h3 className="text-2xl font-bold mb-4 text-foreground relative z-10">{card.title}</h3>
+              <p className="text-muted-foreground mb-8 leading-relaxed relative z-10">{card.description}</p>
+              <Button asChild variant="outline" className="relative z-10 bg-transparent border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300">
+                <Link to={card.href} className="flex items-center gap-2">
+                  {card.cta}
+                  <Briefcase className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </Link>
               </Button>
             </motion.div>
           ))}

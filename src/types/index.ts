@@ -3,10 +3,16 @@ export interface Job {
   title: string;
   company: string;
   location: string;
-  type: "Full-time" | "Part-time" | "Contract" | "Remote";
+  type: "Full-time" | "Part-time" | "Contract" | "Internship";
+  workMode: "Remote" | "On-site" | "Hybrid";
+  experience: "Junior" | "Mid" | "Senior" | "Lead";
+  industry: string;
   salary: string;
+  salaryMin: number;
+  salaryMax: number;
   tags: string[];
   posted: string;
+  postedDate: string; // ISO format for sorting
   description: string;
 }
 

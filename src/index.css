@@ -34,30 +34,30 @@
   }
 
   .dark {
-    --background: 225 43% 6%;
-    --foreground: 210 40% 92%;
-    --card: 225 35% 10%;
-    --card-foreground: 210 40% 92%;
-    --popover: 225 35% 10%;
-    --popover-foreground: 210 40% 92%;
+    --background: 225 60% 3%;
+    --foreground: 210 40% 98%;
+    --card: 225 45% 6%;
+    --card-foreground: 210 40% 98%;
+    --popover: 225 45% 6%;
+    --popover-foreground: 210 40% 98%;
     --primary: 187 100% 50%;
-    --primary-foreground: 225 43% 6%;
-    --secondary: 225 30% 15%;
-    --secondary-foreground: 210 40% 92%;
-    --muted: 225 25% 14%;
-    --muted-foreground: 215 20% 55%;
+    --primary-foreground: 225 60% 3%;
+    --secondary: 225 35% 10%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 225 30% 12%;
+    --muted-foreground: 215 25% 60%;
     --accent: 142 100% 56%;
-    --accent-foreground: 225 43% 6%;
-    --destructive: 0 62.8% 50%;
+    --accent-foreground: 225 60% 3%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 225 20% 18%;
-    --input: 225 20% 18%;
+    --border: 225 25% 15%;
+    --input: 225 25% 15%;
     --ring: 187 100% 50%;
     --cyber-glow: 187 100% 50%;
     --cyber-green: 142 100% 56%;
     --cyber-purple: 270 100% 65%;
-    --surface: 225 30% 12%;
-    --surface-foreground: 210 40% 92%;
+    --surface: 225 40% 8%;
+    --surface-foreground: 210 40% 98%;
   }
 }
 
@@ -73,6 +73,17 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full border-[3px] border-solid border-transparent bg-clip-content hover:bg-primary/50 transition-colors;
   }
 }
 
@@ -110,21 +121,60 @@
 
   .cyber-grid {
     background-image:
-      linear-gradient(hsl(var(--primary) / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--primary) / 0.03) 1px, transparent 1px);
+      linear-gradient(hsl(var(--primary) / 0.03) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.03) 1.5px, transparent 1.5px);
     background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 85%);
+    position: relative;
+  }
+
+  .cyber-grid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(hsl(var(--primary) / 0.01) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.01) 1px, transparent 1px);
+    background-size: 15px 15px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 75%);
+    opacity: 0.5;
   }
 
   .noise-bg {
     position: relative;
+    overflow: hidden;
   }
   .noise-bg::before {
     content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    position: fixed;
+    inset: -100%;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     pointer-events: none;
-    z-index: 0;
+    z-index: 100;
+    mix-blend-mode: soft-light;
+    animation: noise 3s steps(10) infinite;
+  }
+
+  @keyframes noise {
+    0% { transform: translate(0,0) }
+    10% { transform: translate(-5%,-5%) }
+    20% { transform: translate(-10%,5%) }
+    30% { transform: translate(5%,-10%) }
+    40% { transform: translate(-5%,15%) }
+    50% { transform: translate(-10%,5%) }
+    60% { transform: translate(15%,0) }
+    70% { transform: translate(0,10%) }
+    80% { transform: translate(-15%,0) }
+    90% { transform: translate(10%,5%) }
+    100% { transform: translate(5%,0) }
+  }
+
+  .shimmer {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent;
+  }
+
+  .mask-radial {
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
   }
 }
