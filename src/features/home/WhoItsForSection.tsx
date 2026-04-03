@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Users, Building, Briefcase } from "lucide-react";
+import { Users, Building, Briefcase, Activity } from "lucide-react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,8 @@ export function WhoItsForSection() {
       description: "Discover roles tailored to your cybersecurity expertise. From entry-level to CISO, we've got you covered.",
       cta: "Find Jobs",
       href: "/jobs",
-      glow: "hover:shadow-[0_0_30px_hsl(var(--primary)/0.2)]",
+      color: "primary",
+      accent: "cyan",
     },
     {
       icon: Building,
@@ -22,7 +23,8 @@ export function WhoItsForSection() {
       description: "Access a curated pool of verified cybersecurity professionals. Hire faster with AI-powered candidate matching.",
       cta: "Post a Job",
       href: "/contact",
-      glow: "hover:shadow-[0_0_30px_hsl(var(--accent)/0.2)]",
+      color: "cyber-purple",
+      accent: "purple",
     },
   ];
 
@@ -56,34 +58,55 @@ export function WhoItsForSection() {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
           {cards.map((card, i) => (
             <motion.div
               key={card.title}
-              className={`relative overflow-hidden group bg-card/40 backdrop-blur-md rounded-2xl p-10 text-center border border-white/5 transition-all duration-500 hover:border-primary/30 hover:bg-card/60`}
+              className={`relative group bg-card/40 backdrop-blur-xl rounded-2xl p-10 border border-white/5 transition-all duration-500 hover:border-${card.color}/30`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.2, duration: 0.8, ease: "circOut" }}
-              whileHover={{ y: -8 }}
+              whileHover={{ scale: 1.02 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute -inset-[100%] group-hover:animate-border-beam [background:linear-gradient(90deg,transparent_0,rgba(0,163,255,0.2)_50%,transparent_100%)] [offset-path:rect(0_auto_auto_0_round_2rem)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ "--duration": 4 } as any} />
+              {/* Background Glow */}
+              <div className={`absolute inset-0 bg-${card.color}/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+              
+              {/* Scanning Header Accent */}
+              <div className="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
               <motion.div 
-                className="h-20 w-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
-                whileHover={{ rotate: [6, -6, 6], transition: { repeat: Infinity, duration: 2 } }}
+                className={`h-24 w-24 rounded-2xl bg-${card.color}/10 flex items-center justify-center mx-auto mb-8 relative z-10 group-hover:bg-${card.color}/20 transition-all duration-500 border border-${card.color}/20`}
               >
-                <card.icon className="h-10 w-10 text-primary" />
+                <card.icon className={`h-12 w-12 text-${card.color}`} />
+                <motion.div 
+                  className="absolute inset-0 rounded-2xl border-2 border-primary/20"
+                  animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
               </motion.div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground relative z-10">{card.title}</h3>
-              <p className="text-muted-foreground mb-8 leading-relaxed relative z-10">{card.description}</p>
-              <Button asChild variant="outline" className="relative z-10 bg-transparent border-primary/20 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300">
-                <Link to={card.href} className="flex items-center gap-2">
-                  {card.cta}
-                  <Briefcase className="h-4 w-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                </Link>
-              </Button>
+
+              <h3 className="text-3xl font-black mb-4 text-foreground relative z-10 tracking-tight">{card.title}</h3>
+              <p className="text-muted-foreground text-lg mb-10 leading-relaxed relative z-10 font-medium">
+                {card.description}
+              </p>
+
+              <div className="relative z-10 flex flex-col items-center gap-4">
+                <Button asChild size="lg" className={`h-12 px-8 font-bold bg-${card.color} text-white hover:bg-${card.color}/80 glow-${card.accent} transition-all`}>
+                  <Link to={card.href}>{card.cta}</Link>
+                </Button>
+                <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground uppercase tracking-widest opacity-0 group-hover:opacity-70 transition-opacity">
+                  <Activity className="h-3 w-3" />
+                  Requesting Access...
+                </div>
+              </div>
+
+              {/* Scanning Line */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/20 to-transparent h-[10%] w-full z-20 pointer-events-none opacity-0 group-hover:opacity-100"
+                animate={{ top: ["-10%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              />
             </motion.div>
           ))}
         </div>

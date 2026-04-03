@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { STATS } from "@/lib/data";
 import { AnimatedCounter } from "@/components/common/AnimatedCounter";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Activity, ShieldCheck } from "lucide-react";
 
 export function StatsSection() {
   const { ref, isVisible } = useIntersectionObserver();
@@ -32,19 +33,47 @@ export function StatsSection() {
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
-              className="text-center relative group p-6 rounded-2xl transition-all duration-300 hover:bg-white/5"
+              className="relative group p-10 rounded-2xl transition-all duration-500 overflow-hidden bg-white/[0.02] border border-white/5 hover:border-primary/20"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.8 }}
             >
-              <div className="absolute inset-0 bg-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-75 group-hover:scale-110 pointer-events-none" />
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gradient-cyber mb-4 relative z-10">
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-              </div>
-              <p className="text-sm text-muted-foreground font-medium uppercase tracking-[0.2em] relative z-10 group-hover:text-primary transition-colors duration-300">{stat.label}</p>
+              {/* Traffic Pulse Animation */}
+              <motion.div 
+                className="absolute inset-0 bg-primary/10 rounded-full blur-[100px] pointer-events-none"
+                animate={{ 
+                  scale: [0.8, 1.2, 0.8],
+                  opacity: [0.1, 0.3, 0.1]
+                }}
+                transition={{ duration: 4, repeat: Infinity, delay: i * 0.5 }}
+              />
               
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary/30 rounded-full group-hover:w-16 group-hover:bg-primary transition-all duration-300" />
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="flex items-center gap-2 mb-4">
+                  <Activity className="h-3 w-3 text-primary animate-pulse" />
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Live Node Stats</span>
+                </div>
+
+                <div className="text-5xl sm:text-6xl font-black text-foreground mb-4 tracking-tighter">
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                </div>
+                
+                <p className="text-xs text-muted-foreground font-bold uppercase tracking-[0.3em] group-hover:text-primary transition-colors duration-300">
+                  {stat.label}
+                </p>
+
+                <div className="mt-6 h-1 w-12 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div 
+                    className="h-full bg-primary"
+                    animate={{ x: ["-100%", "100%"] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear", delay: i * 0.3 }}
+                  />
+                </div>
+              </div>
+
+              {/* Technical Indicator */}
+              <ShieldCheck className="absolute -bottom-2 -right-2 h-16 w-16 text-primary/5 -rotate-12 group-hover:text-primary/10 transition-colors" />
             </motion.div>
           ))}
         </div>
